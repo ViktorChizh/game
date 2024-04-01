@@ -1,0 +1,16 @@
+{
+  "name": "3-game",
+  "version": "1.0.0",
+  "description": "GAME catch google",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Victor Chizh",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}
+
+
