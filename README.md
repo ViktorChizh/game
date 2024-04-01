@@ -1,1 +1,1 @@
-# 3-game
+# educational project without frameworks on pure JS to consolidate knowledge of OOP
