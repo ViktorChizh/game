@@ -64,7 +64,7 @@ class Unit {
     }
 }
 class Google extends Unit {
-    constructor(id, position) {
+    constructor(position) {
         super(position)
     }
 }

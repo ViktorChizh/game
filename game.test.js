@@ -44,7 +44,9 @@ describe("game test", () => {
         expect([1,2,3]).toContain(game.player2.position.y)
         expect([1]).toContain(game.google.position.x)
         expect([1,2,3]).toContain(game.google.position.y)
-
-        // expect(game.player1.position)not
+        // проверяем не находятся ли игроки на одном поле
+        expect(game.google.position).not.toEqual(game.player1.position)
+        expect(game.google.position).not.toEqual(game.player2.position)
+        expect(game.player1.position).not.toEqual(game.player2.position)
     })
 })

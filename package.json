@@ -1,10 +1,11 @@
 {
   "name": "3-game",
+  "homepage": "https://ViktorChizh.github.io/3-game",
   "version": "1.0.0",
   "description": "GAME catch google",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Victor Chizh",
   "license": "ISC",
