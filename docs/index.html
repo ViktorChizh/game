@@ -21,31 +21,36 @@
             font-weight: bolder;
         }
         span {
-            font-size: 30px;
+            font-size: 100px;
             font-weight: bolder;
             color: red;
+            width: 20%;
+            align-self: center;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div style=" width: 50%; margin: 0 auto; display: flex; flex-direction: column; align-items: center">
-        <p> player1: <span id="score1"></span> - player2: <span id="score2"></span></p>
-        <div id="grid"></div>
-        <p style="color: green">You must stand on the GOOGLE how can faster</p>
-        <div style="width: 100%; display: flex; justify-content: space-between">
+        <div style=" width: 100%; margin: 0 auto 20px; display: flex; justify-content: space-evenly; " >
             <div style=" width: 50%; margin: 0 auto; display: flex; flex-direction: column; align-items: center">
-                <p style="color: darkgoldenrod">player2</p>
+                <p style="color: darkgoldenrod">player</p>
                 <p style="margin: 0"> W </p>
                 <p style="margin: 0"> A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D</p>
                 <p style="margin: 0"> S</p>
             </div>
+            <span id="score2"></span>
+            <span>:</span>
+            <span id="score1"></span>
             <div style=" width: 50%; margin: 0 auto; display: flex; flex-direction: column; align-items: center">
-                <p style="color: dodgerblue">player1</p>
+                <p style="color: dodgerblue">player</p>
                 <p style="margin: 0"> &#129045; </p>
                 <p style="margin: 0"> &#129048;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#129046;</p>
                 <p style="margin: 0"> &#129047;</p>
             </div>
         </div>
+        <div id="grid"></div>
+        <p style="color: green">You must stand on the GOOGLE how can faster</p>
     </div>
 
 
