@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1/0"/>
     <title>Game catch Google</title>
+    <link rel="shortcut icon" href="./assets/player1.png">
     <style>
         img {
             width: 50px;
@@ -30,7 +31,24 @@
     <div style=" width: 50%; margin: 0 auto; display: flex; flex-direction: column; align-items: center">
         <p> player1: <span id="score1"></span> - player2: <span id="score2"></span></p>
         <div id="grid"></div>
+        <p style="color: green">You must stay on the GOOGLE</p>
+        <div style="width: 100%; display: flex; justify-content: space-between">
+            <div style=" width: 50%; margin: 0 auto; display: flex; flex-direction: column; align-items: center">
+                <p style="color: dodgerblue">player1</p>
+                <p style="margin: 0"> &#129045; </p>
+                <p style="margin: 0"> &#129048;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#129046;</p>
+                <p style="margin: 0"> &#129047;</p>
+            </div>
+            <div style=" width: 50%; margin: 0 auto; display: flex; flex-direction: column; align-items: center">
+                <p style="color: darkgoldenrod">player2</p>
+                <p style="margin: 0"> W </p>
+                <p style="margin: 0"> A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D</p>
+                <p style="margin: 0"> S</p>
+            </div>
+        </div>
     </div>
+
+
     <script type="module" src="front.js"></script>
 </body>
 </html>
