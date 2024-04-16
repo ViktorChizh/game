@@ -3,7 +3,7 @@
   "homepage": "https://ViktorChizh.github.io/3-game",
   "version": "1.0.0",
   "description": "GAME catch google",
-  "main": "index.js",
+  "main": "docs/game.js",
   "scripts": {
     "test": "jest"
   },

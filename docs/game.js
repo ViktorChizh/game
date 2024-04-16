@@ -1,5 +1,6 @@
-class Game {
+export class Game {
     #settings = {
+        pointsToWin: 10,
         gridSize: {
             columns: 4,
             rows: 4
@@ -16,9 +17,9 @@ class Game {
         2: {points: 0}
     }
 
-    constructor() {
+    constructor(eventEmitter) {
+        this.eventEmitter = eventEmitter
     }
-
 
     #getRandomPosition(coordinates) {
         let newX, newY;
@@ -29,7 +30,6 @@ class Game {
 
         return new Position(newX, newY);
     }
-
     #createUnits() {
         const player1Position = this.#getRandomPosition([])
         this.#player1 = new Player(1, player1Position)
@@ -48,10 +48,13 @@ class Game {
         }
 
     }
-
     async stop() {
         clearInterval(this.#googleSetIntervalId)
-        this.#status = 'finished'
+        this.#status = 'stoped'
+    }
+    async #finish() {
+        clearInterval(this.#googleSetIntervalId);
+        this.#status = "finished";
     }
 
     #runGoogleJumpInterval() {
@@ -59,39 +62,47 @@ class Game {
             this.#moveGoogleToRandomPosition()
         }, this.#settings.googleJumpInterval)
     }
-
     #moveGoogleToRandomPosition(excludeGoogle) {
         let notCrossedPosition = [this.#player1.position, this.#player2.position]
         if (!excludeGoogle) {
             notCrossedPosition.push(this.#google.position)
         }
         this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
+        this.eventEmitter.emit('unitChangePosition')
     }
 
     #checkBorder(player, delta) {
+        const newPosition = player.position.clone()
+        if (delta.x) newPosition.x += delta.x
+        if (delta.y) newPosition.y += delta.y
+
         if (delta.x) {
-            return player.position.x + delta.x > this.#settings.gridSize.columns || player.position.x + delta.x < 1
+            return newPosition.x > this.#settings.gridSize.columns || newPosition.x < 1
         }
         if (delta.y) {
-            return player.position.y + delta.y > this.#settings.gridSize.rows || player.position.y + delta.y < 1
+            return newPosition.y > this.#settings.gridSize.rows || newPosition.y < 1
         }
         return false;
     }
-
     #checkOtherPlayer(movingPlayer, otherPlayer, delta) {
-        if (delta.x) {
-            return movingPlayer.position.x + delta.x === otherPlayer.position.x;
-        }
-        if (delta.y) {
-            return movingPlayer.position.y + delta.y === otherPlayer.position.y;
-        }
-        return false;
-    }
+        const newPosition = movingPlayer.position.clone()
+        if (delta.x)  newPosition.x += delta.x;
+        if (delta.y) newPosition.y += delta.y;
 
+        return otherPlayer.position.equal(newPosition)
+    }
     #checkGoogleCatching(player) {
         if (this.#google.position.equal(player.position)) {
             this.score[player.id].points++;
-            this.#moveGoogleToRandomPosition();
+            if(this.score[player.id].points === this.#settings.pointsToWin){
+                this.#finish()
+                this.google.position = new Position(
+                    this.#settings.gridSize.columns +1,
+                    this.#settings.gridSize.rows +1
+                )
+            } else {
+                this.#moveGoogleToRandomPosition();
+            }
         }
     }
 
@@ -102,28 +113,26 @@ class Game {
             return
         }
         if (delta.x) {
-            movingPlayer.position.x = movingPlayer.position.x + delta.x
+            movingPlayer.position = new Position( movingPlayer.position.x + delta.x, movingPlayer.position.y)
         } else {
-            movingPlayer.position.y = movingPlayer.position.y + delta.y
+            movingPlayer.position = new Position( movingPlayer.position.x , movingPlayer.position.y+ delta.y)
         }
         this.#checkGoogleCatching(movingPlayer)
+             this.eventEmitter.emit("unitChangePosition");
     }
 
     movePlayer1Right() {
         const delta = {x: 1}
         this.#movePlayer(this.#player1, this.#player2, delta)
     }
-
     movePlayer1Left() {
         const delta = {x: -1}
         this.#movePlayer(this.#player1, this.#player2, delta)
     }
-
     movePlayer1Up() {
         const delta = {y: -1}
         this.#movePlayer(this.#player1, this.#player2, delta)
     }
-
     movePlayer1Down() {
         const delta = {y: 1}
         this.#movePlayer(this.#player1, this.#player2, delta)
@@ -133,29 +142,29 @@ class Game {
         const delta = {x: 1}
         this.#movePlayer(this.#player2, this.#player1, delta)
     }
-
     movePlayer2Left() {
         const delta = {x: -1}
         this.#movePlayer(this.#player2, this.#player1, delta)
     }
-
     movePlayer2Up() {
         const delta = {y: -1}
         this.#movePlayer(this.#player2, this.#player1, delta)
     }
-
     movePlayer2Down() {
         const delta = {y: 1}
         this.#movePlayer(this.#player2, this.#player1, delta)
     }
 
     set settings(settings) {
-        this.#settings = settings
-    }
-
+        this.#settings = {...this.#settings, ...settings}
+        // без проверки undefined может перезатереть начальные установки
+        this.#settings.gridSize = settings.gridSize
+            ? {...this.#settings.gridSize, ...settings.gridSize}
+            : this.#settings.gridSize
+    } // для тестов
     get settings() {
         return this.#settings
-    }
+    } // для тестов
 
     get status() {
         return this.#status
@@ -164,11 +173,9 @@ class Game {
     get player1() {
         return this.#player1
     }
-
     get player2() {
         return this.#player2
     }
-
     get google() {
         return this.#google
     }
@@ -176,10 +183,9 @@ class Game {
     get score() {
         return this.#score
     }
-
     set score(newScore) {
         this.#score = newScore;
-    }
+    } // для тестов
 }
 
 class Position {
@@ -196,32 +202,29 @@ class Position {
         return otherPosition.x === this.x && otherPosition.y === this.y
     }
 }
-
 class Unit {
     constructor(position) {
         this.position = position
     }
 }
-
 class Google extends Unit {
     constructor(position) {
         super(position)
     }
 }
-
 class Player extends Unit {
     constructor(id, position) {
         super(position)
         this.id = id
     }
 }
-
 class NumberUtils {
     static getRandomNumber(max) {
         return Math.floor(Math.random() * max + 1)
     }
 }
 
-module.exports = {
-    Game,
-}
+// для тестов (экспорт в стр.1 надо удалить и закоментить вызов eventEmitter в стр. 75 и 127):
+// module.exports = {
+//     Game,
+// }

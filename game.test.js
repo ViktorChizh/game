@@ -1,4 +1,4 @@
-const {Game} = require("./index.js")
+const {Game} = require("./docs/game.js")
 
 //  Создаем спецфункцию (промисификатор) для имитации задержки
 function sleep(delay) {
@@ -149,5 +149,41 @@ describe("game test", () => {
 
             expect(game.google.position.equal(prevGooglePosition)).toBe(false);
         }
+    });
+    it("catch google by player1 or player2 for one row", async () => {
+            game.settings = {
+                gridSize: {
+                    columns: 3,
+                    rows: 1,
+                },
+            };
+            game.score = {
+                1: {points: 0},
+                2: {points: 0},
+            };
+
+            await game.start();
+            // возможные варианты расположения в заданных минимальных условиях
+            // p1 p2 g | p1 g p2 | p2 p1 g | p2 g p1 | g p1 p2 | g p2 p1
+            const deltaForPlayer1 = game.google.position.x - game.player1.position.x;
+
+            const prevGooglePosition = game.google.position.clone();
+
+            if (Math.abs(deltaForPlayer1) === 2) {
+                if (game.google.position.x - game.player2.position.x > 0) game.movePlayer2Right();
+                else game.movePlayer2Left();
+
+                expect(game.score[1].points).toBe(0);
+                expect(game.score[2].points).toBe(1);
+            } else {
+                if (deltaForPlayer1 > 0) game.movePlayer1Right();
+                else game.movePlayer1Left();
+
+                expect(game.score[1].points).toBe(1);
+                expect(game.score[2].points).toBe(0);
+            }
+
+            expect(game.google.position.equal(prevGooglePosition)).toBe(false);
+
     });
 })
