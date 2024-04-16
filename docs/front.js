@@ -14,13 +14,16 @@ const asyncStart = async () => {
     await game.start()
 
     const tableElement = document.querySelector('#grid')
-    const scoreElement = document.querySelector('#score')
+    const score1Element = document.querySelector('#score1')
+    const score2Element = document.querySelector('#score2')
 
     const render = () => {
         tableElement.innerHTML = ''
-        scoreElement.innerHTML = ''
+        score1Element.innerHTML = ''
+        score1Element.append(game.score[1].points)
+        score2Element.innerHTML = ''
+        score2Element.append(game.score[2].points)
 
-        scoreElement.append(`player1: ${game.score[1].points} - player2: ${game.score[2].points}`)
 
         for (let y=1; y <= game.settings.gridSize.rows; y++) {
             const  trElement = document.createElement('tr')
@@ -74,6 +77,8 @@ const asyncStart = async () => {
                 game.movePlayer2Right();
                 break;
         }
+
+
     })
 
     game.eventEmitter.on('unitChangePosition', () => {
