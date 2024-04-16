@@ -7,7 +7,7 @@ export class EventEmitter {
         this.subscribe(eventName, callback)
     }
     on(eventName, callback) {
-        this.subscribe(eventName, callback)
+        this.addEventListener(eventName, callback)
     }
     subscribe(eventName, callback) {
         if(!this.#subscribers[eventName]){

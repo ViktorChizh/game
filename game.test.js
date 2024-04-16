@@ -1,3 +1,5 @@
+// для тестов в game.js надо закоментить стр.2,74,124 и раскоментить стр.3,231-233 Затем в package.json запустить test
+
 const {Game} = require("./docs/game.js")
 
 //  Создаем спецфункцию (промисификатор) для имитации задержки
@@ -150,40 +152,51 @@ describe("game test", () => {
             expect(game.google.position.equal(prevGooglePosition)).toBe(false);
         }
     });
-    it("catch google by player1 or player2 for one row", async () => {
-            game.settings = {
-                gridSize: {
-                    columns: 3,
-                    rows: 1,
-                },
-            };
-            game.score = {
-                1: {points: 0},
-                2: {points: 0},
-            };
+    it("check first or second player won", async () => {
+        game.settings = {
+            pointsToWin: 3,
+            gridSize: {
+                columns: 3,
+                rows: 1,
+            },
+        };
+        game.score = {
+            1: { points: 0 },
+            2: { points: 0 },
+        };
 
-            await game.start();
-            // возможные варианты расположения в заданных минимальных условиях
-            // p1 p2 g | p1 g p2 | p2 p1 g | p2 g p1 | g p1 p2 | g p2 p1
-            const deltaForPlayer1 = game.google.position.x - game.player1.position.x;
+        await game.start();
+        // p1 p2 g | p1 g p2 | p2 p1 g | p2 g p1 | g p1 p2 | g p2 p1
+        const deltaForPlayer1 = game.google.position.x - game.player1.position.x;
 
-            const prevGooglePosition = game.google.position.clone();
-
-            if (Math.abs(deltaForPlayer1) === 2) {
-                if (game.google.position.x - game.player2.position.x > 0) game.movePlayer2Right();
-                else game.movePlayer2Left();
-
-                expect(game.score[1].points).toBe(0);
-                expect(game.score[2].points).toBe(1);
+        if (Math.abs(deltaForPlayer1) === 2) {
+            const deltaForPlayer2 = game.google.position.x - game.player2.position.x;
+            if (deltaForPlayer2 > 0) {
+                game.movePlayer2Right();
+                game.movePlayer2Left();
+                game.movePlayer2Right();
             } else {
-                if (deltaForPlayer1 > 0) game.movePlayer1Right();
-                else game.movePlayer1Left();
-
-                expect(game.score[1].points).toBe(1);
-                expect(game.score[2].points).toBe(0);
+                game.movePlayer2Left();
+                game.movePlayer2Right();
+                game.movePlayer2Left();
             }
 
-            expect(game.google.position.equal(prevGooglePosition)).toBe(false);
+            expect(game.score[1].points).toBe(0);
+            expect(game.score[2].points).toBe(3);
+        } else {
+            if (deltaForPlayer1 > 0) {
+                game.movePlayer1Right();
+                game.movePlayer1Left();
+                game.movePlayer1Right();
+            } else {
+                game.movePlayer1Left();
+                game.movePlayer1Right();
+                game.movePlayer1Left();
+            }
 
+            expect(game.score[1].points).toBe(3);
+            expect(game.score[2].points).toBe(0);
+        }
+        expect(game.status).toBe("finished");
     });
-})
+});

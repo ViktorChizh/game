@@ -1,4 +1,7 @@
+// для тестов надо закоментить стр.2,74,124 и раскоментить стр.3,231-233 Затем в package.json запустить test
 export class Game {
+// class Game {
+
     #settings = {
         pointsToWin: 10,
         gridSize: {
@@ -68,7 +71,7 @@ export class Game {
             notCrossedPosition.push(this.#google.position)
         }
         this.#google = new Google(this.#getRandomPosition(notCrossedPosition))
-        this.eventEmitter.emit('unitChangePosition')
+      this.eventEmitter.emit('unitChangePosition')
     }
 
     #checkBorder(player, delta) {
@@ -118,7 +121,7 @@ export class Game {
             movingPlayer.position = new Position( movingPlayer.position.x , movingPlayer.position.y+ delta.y)
         }
         this.#checkGoogleCatching(movingPlayer)
-             this.eventEmitter.emit("unitChangePosition");
+           this.eventEmitter.emit("unitChangePosition");
     }
 
     movePlayer1Right() {
@@ -224,7 +227,7 @@ class NumberUtils {
     }
 }
 
-// для тестов (экспорт в стр.1 надо удалить и закоментить вызов eventEmitter в стр. 75 и 127):
+
 // module.exports = {
 //     Game,
 // }
