@@ -104,7 +104,9 @@ export class Game {
                     this.#settings.gridSize.rows +1
                 )
             } else {
-                this.#moveGoogleToRandomPosition();
+                clearInterval(this.#googleSetIntervalId)
+                this.#moveGoogleToRandomPosition()
+                this.#runGoogleJumpInterval()
             }
         }
     }

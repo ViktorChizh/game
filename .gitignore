@@ -26,4 +26,6 @@ yarn-error.log*
 
 *storybook.log
 
-Архів.zip
+Архив без сервера.zip
+Архив с сервером.zip
+*.zip
