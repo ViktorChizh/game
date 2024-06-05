@@ -1,6 +1,6 @@
 {
   "name": "3-game",
-  "homepage": "https://ViktorChizh.github.io/3-game",
+  "homepage": "https://ViktorChizh.github.io/game",
   "version": "1.0.0",
   "description": "GAME catch google",
   "main": "docs/game.js",

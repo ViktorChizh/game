@@ -1,6 +1,6 @@
 // для тестов в game.js надо закоментить стр.2,74,124 и раскоментить стр.3,231-233 Затем в package.json запустить test
 
-const {Game} = require("./docs/game.js")
+const {Game} = require("./game.js")
 
 //  Создаем спецфункцию (промисификатор) для имитации задержки
 function sleep(delay) {
