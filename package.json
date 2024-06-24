@@ -4,12 +4,15 @@
   "version": "1.0.0",
   "description": "GAME catch google",
   "main": "docs/game.js",
+  "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Victor Chizh",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "ws": "^8.16.0"
   }
 }
