@@ -57,15 +57,8 @@ export class GameProxy {
         this.api.remoteProcedureCall("movePlayer2Down")
     }
 
-    async setSettings(settings) {
-
-    }
     async getSettings() {
         return this.api.remoteProcedureCall("getSettings")
-    }
-
-    async getStatus() {
-        return this.api.remoteProcedureCall("getStatus")
     }
 
     async getPlayer1() {
@@ -83,19 +76,12 @@ export class GameProxy {
     async getScore() {
         return this.api.remoteProcedureCall("getScore")
     }
-
-
-    async setScore(newScore) {
-
-    }
 }
 
 class Api {
     constructor(ws) {
         this.ws = ws;
-        this.resolvers = {
-            //"getGoogle": [res]
-        }
+        this.resolvers = {}
 
         this.ws.addEventListener("message", (event) => {
             const resultAction = JSON.parse(event.data);

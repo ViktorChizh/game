@@ -12,7 +12,7 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.14.8)
       nodemon:
-        specifier: ^3.1.0
+        specifier: ^3.1.4
         version: 3.1.4
       ws:
         specifier: ^8.16.0

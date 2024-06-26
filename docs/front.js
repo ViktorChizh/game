@@ -8,7 +8,6 @@ const asyncStart = async () => {
 
     await game.start();
 
-
     const tableElement = document.querySelector("#grid");
     const score1Element = document.querySelector("#score1");
     const score2Element = document.querySelector("#score2");
@@ -24,32 +23,19 @@ const asyncStart = async () => {
         conditionElement.innerHTML = "";
 
         const score = await game.getScore()
-        if (counter < renderCounter) {
-            console.log("BREAK")
-            return;
-        }
+        if (counter < renderCounter)  return; // после каждой асинхронной операции проверяем не запущен ли еще один рендер. и если запущен - обрываем выполнение текущего
         const settings = await game.getSettings()
-        if (counter < renderCounter) {
-            console.log("BREAK")
-            return;
-        }
-        conditionElement.append(`условие победы: ${settings.pointsToWin} раз поймать GOOGLE (надо на него стать как можно быстрее). GOOGLE
-        перемещается каждые ${settings.googleJumpInterval/1000} секунды. После окончания игра перезапускается через 5 секунд.`);
+        if (counter < renderCounter)  return;
+        conditionElement.append(`условие победы: первым ${settings.pointsToWin} раз поймать GOOGLE (надо на него стать как 
+        можно быстрее). GOOGLE перемещается каждые ${settings.googleJumpInterval/1000} секунды. После окончания, игра 
+        перезапускается через 5 секунд.`);
         const google = await game.getGoogle()
-        if (counter < renderCounter) {
-            console.log("BREAK")
-            return;
-        }
+        if (counter < renderCounter)  return;
         const player1 = await game.getPlayer1()
-        if (counter < renderCounter) {
-            console.log("BREAK")
-            return;
-        }
+        if (counter < renderCounter)  return;
         const player2 = await game.getPlayer2()
-        if (counter < renderCounter) {
-            console.log("BREAK")
-            return;
-        }
+        if (counter < renderCounter)  return;
+
 
         score1Element.append(`${score[1].points}`);
         score2Element.append(`${score[2].points}`);

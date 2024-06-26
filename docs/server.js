@@ -17,9 +17,8 @@ wss.on('connection', function connection(tunnel) {
         }
         tunnel.send(JSON.stringify(message));
     })
-
     tunnel.on('message', async function message(data) {
-        // console.log("input message")
+
         const action = JSON.parse(data);
 
         const result = await game[action.procedure]();
@@ -31,7 +30,4 @@ wss.on('connection', function connection(tunnel) {
         }
         tunnel.send(JSON.stringify(response));
     });
-
-    // tunnel.send('something');
 });
-

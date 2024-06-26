@@ -1,4 +1,6 @@
+//закоментированные строки используются для тестов. инструкции в файле game.test.js
 export class Game {
+  // class Game {
     #settings = {
         pointsToWin: 5,
         gridSize: {
@@ -21,7 +23,7 @@ export class Game {
         this.eventEmitter = eventEmitter;
     }
 
-    #getRandonPosition(coordinates) {
+    #getRandomPosition(coordinates) {
         let newX, newY;
 
         do {
@@ -33,23 +35,21 @@ export class Game {
     }
 
     #createUnits() {
-        const player1Position = this.#getRandonPosition([]);
+        const player1Position = this.#getRandomPosition([]);
         this.#player1 = new Player(1, player1Position);
 
-        const player2Position = this.#getRandonPosition([player1Position]);
+        const player2Position = this.#getRandomPosition([player1Position]);
         this.#player2 = new Player(2, player2Position);
 
         this.#moveGoogleToRandomPosition(true);
     }
 
     async start() {
-
         if (this.#status === "pending") {
             this.#createUnits();
             this.#status = "in-process";
             this.#runGoogleJumpInterval();
         }
-
     }
 
     #runGoogleJumpInterval() {
@@ -82,7 +82,7 @@ export class Game {
         if (!excludeGoogle) {
             notCrossedPosition.push(this.#google.position);
         }
-        this.#google = new Google(this.#getRandonPosition(notCrossedPosition));
+        this.#google = new Google(this.#getRandomPosition(notCrossedPosition));
         this.eventEmitter.emit("unitPositionChanged");
     }
 
@@ -91,12 +91,8 @@ export class Game {
         if (delta.x) newPosition.x += delta.x;
         if (delta.y) newPosition.y += delta.y;
 
-        if (newPosition.x < 1 || newPosition.x > this.#settings.gridSize.columns) {
-            return true;
-        }
-        if (newPosition.y < 1 || newPosition.y > this.#settings.gridSize.rows) {
-            return true;
-        }
+        if (newPosition.x < 1 || newPosition.x > this.#settings.gridSize.columns) return true;
+        if (newPosition.y < 1 || newPosition.y > this.#settings.gridSize.rows) return true;
 
         return false;
     }
@@ -114,12 +110,7 @@ export class Game {
             this.#score[player.id].points++;
             if (this.#score[player.id].points === this.#settings.pointsToWin) {
                 this.#finish();
-                this.#google.position = new Position(-1, -1) // TODO end game
-
-                /*  this.google.position = new Position(
-                    this.#settings.gridSize.columns + 1,
-                    this.#settings.gridSize.rows + 1
-                  );*/
+                this.#google.position = new Position(-1, -1)
             } else {
                 clearInterval(this.#googleSetIntervalId);
                 this.#moveGoogleToRandomPosition();
@@ -135,9 +126,7 @@ export class Game {
             otherPlayer,
             delta
         );
-        if (isBorder || isOtherPlayer) {
-            return;
-        }
+        if (isBorder || isOtherPlayer)  return;
 
         if (delta.x) {
             movingPlayer.position = new Position(
@@ -202,6 +191,34 @@ export class Game {
             ? { ...this.#settings.gridSize, ...settings.gridSize }
             : this.#settings.gridSize;
     }
+    // get settings() {
+    //     return this.#settings;
+    // }
+    //
+    // get status() {
+    //     return this.#status;
+    // }
+    //
+    // get player1() {
+    //     return this.#player1;
+    // }
+    //
+    // get player2() {
+    //     return this.#player2;
+    // }
+    //
+    // get google() {
+    //     return this.#google;
+    // }
+    //
+    // get score() {
+    //     return this.#score;
+    // }
+    //
+    // set score(newScore) {
+    //     this.#score = newScore;
+    // }
+
     async getSettings() {
         return this.#settings;
     }

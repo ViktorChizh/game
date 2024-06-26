@@ -1,4 +1,4 @@
-// для тестов в game.js надо закоментить стр.2,74,124 и раскоментить стр.3,231-233 Затем в package.json запустить test
+// для тестов в game.js надо закоментить стр.2,86,148,226-248 и раскоментить стр.3,191-224,289-291
 
 const {Game} = require("./game.js")
 
@@ -28,13 +28,6 @@ describe("game test", () => {
         expect(game.settings.gridSize.rows).toBe(5)
     })
     it('start game', async () => {
-        game.settings = {
-            // для минимума проверок
-            gridSize: {
-                columns: 1,
-                rows: 3
-            }
-        }
         expect(game.status).toBe('pending')
         await game.start()
         expect(game.status).toBe('in-process')
